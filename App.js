@@ -366,7 +366,7 @@ export default function App() {
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="light-content" />
         <View style={styles.setupContainer}>
-          <Text style={styles.title}>🏭 THE FACTORY</Text>
+          <Text style={styles.title}>🏭 THE ARCHITECT</Text>
           <Text style={styles.subtitle}>Configure API Keys</Text>
 
           <TextInput
@@ -416,7 +416,7 @@ export default function App() {
       <StatusBar barStyle="light-content" />
 
       <View style={styles.header}>
-        <Text style={styles.title}>🏭 THE FACTORY</Text>
+        <Text style={styles.title}>🏭 THE ARCHITECT</Text>
         <Text style={styles.status}>
           {isRunning ? '🟢 RUNNING' : '🔴 IDLE'}
         </Text>

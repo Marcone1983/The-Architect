@@ -1,6 +1,6 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
-echo "🏭 THE FACTORY - EAS Automated Setup Script"
+echo "🏭 THE ARCHITECT - EAS Automated Setup Script"
 echo "============================================="
 echo ""
 

@@ -3,7 +3,7 @@
 # Quick setup script - does everything in one go
 # Usage: ./quick_setup.sh
 
-echo "🚀 THE FACTORY - Quick Setup"
+echo "🚀 THE ARCHITECT - Quick Setup"
 echo "=============================="
 echo ""
 echo "This script will:"

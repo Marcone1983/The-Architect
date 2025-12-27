@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "The Factory",
+    "name": "The Architect",
     "slug": "the-architect",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -15,7 +15,7 @@
       "**/*"
     ],
     "android": {
-      "package": "com.factory.autonomousapp",
+      "package": "com.architect.autonomousapp",
       "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",

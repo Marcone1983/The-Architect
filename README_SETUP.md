@@ -1,6 +1,6 @@
-# 🏭 The Factory - Setup Guide
+# 🏭 The Architect - Setup Guide
 
-Complete setup guide for The Factory autonomous app.
+Complete setup guide for The Architect autonomous app.
 
 ## 🚀 Quick Start (Recommended)
 
@@ -82,7 +82,7 @@ https://github.com/Marcone1983/The-Architect/actions
 
 ### From Expo:
 1. Go to https://expo.dev
-2. Click on "The Factory" project
+2. Click on "The Architect" project
 3. Go to "Builds"
 4. Download the APK when ready
 
