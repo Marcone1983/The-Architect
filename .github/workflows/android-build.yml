@@ -21,16 +21,11 @@ jobs:
       - name: 📦 Install dependencies
         run: npm install
 
-      - name: 🔧 Setup Expo
-        run: npm install -g expo-cli eas-cli
-
-      - name: 🏗️ Setup EAS
-        run: |
-          echo "${{ secrets.EXPO_TOKEN }}" | eas login --non-interactive
+      - name: 🔧 Setup Expo and EAS CLI
+        run: npm install -g eas-cli
 
       - name: 🚀 Build APK
-        run: |
-          eas build --platform android --profile preview --non-interactive --no-wait
+        run: eas build --platform android --profile preview --non-interactive --no-wait
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
