@@ -1,46 +1,30 @@
-name: Build Android APK
+name: Build APK using EAS CLI
 
 on:
   push:
-    branches: [ main, master ]
-  workflow_dispatch:
+    branches:
+      - add-eas-config
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout repository
+      - name: Check out repository
         uses: actions/checkout@v3
 
-      - name: 🟢 Setup Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '16'
 
-      - name: 📦 Install dependencies
+      - name: Install dependencies
         run: npm install
 
-      - name: 🔧 Setup Expo and EAS CLI
-        run: npm install -g eas-cli
-
-      - name: 🚀 Build APK
-        run: eas build --platform android --profile preview --non-interactive --no-wait
+      - name: Configure Expo authentication
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: echo "Configured Expo authentication successfully."
 
-      - name: ⏳ Wait for build
-        run: |
-          echo "Build started! Check status at: https://expo.dev"
-          echo "Download APK from Expo dashboard once complete"
-
-      - name: 📱 Build Info
-        run: |
-          echo "========================================="
-          echo "🎉 APK BUILD TRIGGERED SUCCESSFULLY"
-          echo "========================================="
-          echo "Next steps:"
-          echo "1. Go to https://expo.dev"
-          echo "2. Navigate to your project"
-          echo "3. Download the APK when ready"
-          echo "========================================="
+      - name: Build APK
+        run: npx eas build --platform android --non-interactive
