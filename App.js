@@ -94,7 +94,7 @@ class CloudflareDB {
   validateQueryLimit(limit) {
     // Ensure limit is a valid positive integer within bounds
     // Handle null/undefined explicitly before parseInt
-    if (limit == null) {
+    if (limit === null || limit === undefined) {
       return 10;
     }
     const parsed = parseInt(limit, 10);
