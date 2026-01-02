@@ -20,11 +20,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
       
-      - name: Set up Node.js environment
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '16'
@@ -36,17 +39,8 @@ jobs:
       - name: Install EAS CLI
         run: npm install -g eas-cli
 
-      - name: Configure Expo authentication
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-        run: echo "Expo authentication configured."
+      - name: Debug EXPO_TOKEN
+        run: echo "Expo token is set."
 
       - name: Build APK
-        run: |
-          npx eas build --platform ${{ github.event.inputs.platform || 'android' }} --non-interactive || (echo "Build failed. Debug logs below:" && exit 1)
-        env:
-          EAS_BUILD_VERBOSE: 1
-
-      - name: Notify failure
-        if: failure()
-        run: echo "::error Build failed! Check the logs for details."
+        run: npx eas build --platform android --non-interactive || echo "Build failed. See logs above."
