@@ -139,6 +139,7 @@ class AgentOrchestrator {
             'Authorization': `Bearer ${this.openaiKey}`,
             'Content-Type': 'application/json',
           },
+          timeout: REQUEST_TIMEOUT_MS,
         }
       );
       return response.data.choices[0].message.content;
@@ -326,6 +327,7 @@ Output: "APPROVED" or list of issues.`;
 export default function App() {
   const [logs, setLogs] = useState([]);
   const [isRunning, setIsRunning] = useState(false);
+  const [shouldStop, setShouldStop] = useState(false);
   const [apiKeys, setApiKeys] = useState({
     openai: '',
     cfAccountId: '',
@@ -374,6 +376,7 @@ export default function App() {
     }
 
     setIsRunning(true);
+    setShouldStop(false);
     addLog('🏭 FACTORY STARTED', 'system');
 
     try {
@@ -403,16 +406,28 @@ export default function App() {
         addLog
       );
 
-      // Infinite loop
-      while (true) {
+      // Loop until stopped by user
+      while (!shouldStop) {
         await orchestrator.executeFullCycle();
         addLog('⏳ Waiting 10s before next cycle...', 'system');
-        await new Promise((resolve) => setTimeout(resolve, 10000));
+        // Break loop into smaller chunks to check shouldStop more frequently
+        for (let i = 0; i < 10 && !shouldStop; i++) {
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+        }
       }
+      
+      addLog('🛑 FACTORY STOPPED by user', 'system');
     } catch (error) {
       addLog(`💥 FACTORY ERROR: ${error.message}`, 'error');
+    } finally {
       setIsRunning(false);
+      setShouldStop(false);
     }
+  };
+
+  const stopFactory = () => {
+    addLog('🛑 Stopping factory...', 'system');
+    setShouldStop(true);
   };
 
   const getLogColor = (type) => {
@@ -512,6 +527,12 @@ export default function App() {
         <View style={styles.runningIndicator}>
           <ActivityIndicator size="large" color="#00FF88" />
           <Text style={styles.runningText}>AUTONOMOUS MODE ACTIVE</Text>
+          <TouchableOpacity 
+            style={[styles.startButton, { backgroundColor: '#FF0066', marginTop: 10 }]} 
+            onPress={stopFactory}
+          >
+            <Text style={styles.startButtonText}>⏹️ STOP PRODUCTION</Text>
+          </TouchableOpacity>
         </View>
       )}
     </SafeAreaView>
