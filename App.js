@@ -93,7 +93,8 @@ class CloudflareDB {
 
   validateQueryLimit(limit) {
     // Ensure limit is a valid positive integer within bounds
-    return Math.min(Math.max(1, parseInt(limit, 10) || 10), MAX_QUERY_LIMIT);
+    const parsed = parseInt(limit, 10);
+    return Math.min(Math.max(1, isNaN(parsed) ? 10 : parsed), MAX_QUERY_LIMIT);
   }
 
   async getProjects(limit = 10) {
