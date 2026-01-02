@@ -6,15 +6,6 @@ on:
       - main
 
   workflow_dispatch:
-    inputs:
-      platform:
-        description: 'Choose platform'
-        required: true
-        default: 'android'
-        type: choice
-        options:
-          - android
-          - ios
 
 jobs:
   build:
@@ -39,8 +30,6 @@ jobs:
       - name: Install EAS CLI
         run: npm install -g eas-cli
 
-      - name: Debug EXPO_TOKEN
-        run: echo "Expo token is set."
-
       - name: Build APK
-        run: npx eas build --platform android --non-interactive || echo "Build failed. See logs above."
+        run: |
+          npx eas build --platform android --non-interactive || echo "Build failed. See logs above."
