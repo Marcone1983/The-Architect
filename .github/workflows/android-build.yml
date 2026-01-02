@@ -1,9 +1,10 @@
+---
 name: Build APK using EAS CLI
 
 on:
   push:
     branches:
-      - add-eas-config
+      - add-eas-build-debug
 
 jobs:
   build:
@@ -19,7 +20,7 @@ jobs:
           node-version: '16'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Configure Expo authentication
         env:
@@ -28,3 +29,4 @@ jobs:
 
       - name: Build APK
         run: npx eas build --platform android --non-interactive
+---
