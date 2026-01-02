@@ -22,13 +22,13 @@ const MAX_QUERY_LIMIT = 100; // Maximum number of records to fetch
 class CloudflareDB {
   constructor(accountId, apiToken, databaseId) {
     // Input validation
-    if (!accountId || typeof accountId !== 'string' || !accountId.trim()) {
+    if (!accountId || typeof accountId !== 'string' || accountId.trim() === '') {
       throw new Error('Invalid accountId: must be a non-empty string');
     }
-    if (!apiToken || typeof apiToken !== 'string' || !apiToken.trim()) {
+    if (!apiToken || typeof apiToken !== 'string' || apiToken.trim() === '') {
       throw new Error('Invalid apiToken: must be a non-empty string');
     }
-    if (!databaseId || typeof databaseId !== 'string' || !databaseId.trim()) {
+    if (!databaseId || typeof databaseId !== 'string' || databaseId.trim() === '') {
       throw new Error('Invalid databaseId: must be a non-empty string');
     }
 
@@ -39,7 +39,7 @@ class CloudflareDB {
   }
 
   async query(sql, params = []) {
-    if (!sql || typeof sql !== 'string' || !sql.trim()) {
+    if (!sql || typeof sql !== 'string' || sql.trim() === '') {
       throw new Error('Invalid SQL query: must be a non-empty string');
     }
     if (!Array.isArray(params)) {
@@ -76,7 +76,7 @@ class CloudflareDB {
     if (!project || typeof project !== 'object') {
       throw new Error('Invalid project: must be an object');
     }
-    if (!project.name || typeof project.name !== 'string' || !project.name.trim()) {
+    if (!project.name || typeof project.name !== 'string' || project.name.trim() === '') {
       throw new Error('Invalid project name: must be a non-empty string');
     }
 
@@ -373,16 +373,16 @@ export default function App() {
 
     try {
       // Validate API keys before initialization
-      if (!apiKeys.openai || typeof apiKeys.openai !== 'string' || !apiKeys.openai.trim()) {
+      if (!apiKeys.openai || typeof apiKeys.openai !== 'string' || apiKeys.openai.trim() === '') {
         throw new Error('OpenAI API key is required');
       }
-      if (!apiKeys.cfAccountId || typeof apiKeys.cfAccountId !== 'string' || !apiKeys.cfAccountId.trim()) {
+      if (!apiKeys.cfAccountId || typeof apiKeys.cfAccountId !== 'string' || apiKeys.cfAccountId.trim() === '') {
         throw new Error('Cloudflare Account ID is required');
       }
-      if (!apiKeys.cfApiToken || typeof apiKeys.cfApiToken !== 'string' || !apiKeys.cfApiToken.trim()) {
+      if (!apiKeys.cfApiToken || typeof apiKeys.cfApiToken !== 'string' || apiKeys.cfApiToken.trim() === '') {
         throw new Error('Cloudflare API Token is required');
       }
-      if (!apiKeys.cfDatabaseId || typeof apiKeys.cfDatabaseId !== 'string' || !apiKeys.cfDatabaseId.trim()) {
+      if (!apiKeys.cfDatabaseId || typeof apiKeys.cfDatabaseId !== 'string' || apiKeys.cfDatabaseId.trim() === '') {
         throw new Error('Cloudflare Database ID is required');
       }
 
