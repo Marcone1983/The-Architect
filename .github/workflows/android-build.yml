@@ -33,7 +33,7 @@ jobs:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         run: |
           echo "Verifying Expo authentication"
-          eas whoami
+          eas whoami || exit 1
 
       - name: Build APK
         env:

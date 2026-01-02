@@ -93,6 +93,10 @@ class CloudflareDB {
 
   validateQueryLimit(limit) {
     // Ensure limit is a valid positive integer within bounds
+    // Handle null/undefined explicitly before parseInt
+    if (limit == null) {
+      return 10;
+    }
     const parsed = parseInt(limit, 10);
     return Math.min(Math.max(1, isNaN(parsed) ? 10 : parsed), MAX_QUERY_LIMIT);
   }
