@@ -4,7 +4,18 @@ name: Build APK using EAS CLI
 on:
   push:
     branches:
-      - add-eas-build-debug
+      - main
+
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: 'Choose platform'
+        required: true
+        default: 'android'
+        type: choice
+        options:
+          - android
+          - ios
 
 jobs:
   build:
@@ -14,10 +25,11 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Set up Node.js environment
         uses: actions/setup-node@v3
         with:
           node-version: '16'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
@@ -25,8 +37,22 @@ jobs:
       - name: Configure Expo authentication
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-        run: echo "Configured Expo authentication successfully."
+        run: echo "Expo Token configured."
 
-      - name: Build APK
-        run: npx eas build --platform android --non-interactive
----
+      - name: Build application
+        run: |
+          npx eas build --platform ${{ github.event.inputs.platform || 'android' }} --non-interactive || (echo "Build failed. Debug logs below:" && cat .eas/build.log && exit 1)
+        env:
+          EAS_BUILD_VERBOSE: 1
+
+      - name: Notify failure
+        if: failure()
+        run: echo "::error Build failed! Check the logs for more details."
+
+      - name: Send Slack Notification (Optional)
+        if: failure()
+        uses: slackapi/slack-github-action@v1.23
+        with:
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+          payload: '{"text": "The build for ${{ github.repository }} has failed. Please check the logs."}'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
