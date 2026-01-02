@@ -60,7 +60,7 @@ class CloudflareDB {
       );
 
       if (!response.data || !response.data.result) {
-        throw new Error('Invalid response from Cloudflare D1 API');
+        throw new Error('Invalid response from Cloudflare D1 API: missing result data');
       }
 
       return response.data.result[0];
@@ -91,9 +91,14 @@ class CloudflareDB {
     ]);
   }
 
+  validateQueryLimit(limit) {
+    // Ensure limit is a valid positive integer within bounds
+    return Math.min(Math.max(1, parseInt(limit, 10) || 10), MAX_QUERY_LIMIT);
+  }
+
   async getProjects(limit = 10) {
     // Validate limit parameter
-    const validLimit = Math.min(Math.max(1, parseInt(limit, 10) || 10), MAX_QUERY_LIMIT);
+    const validLimit = this.validateQueryLimit(limit);
     
     // Use parameterized query to prevent SQL injection
     const sql = `SELECT * FROM projects ORDER BY timestamp DESC LIMIT ?`;

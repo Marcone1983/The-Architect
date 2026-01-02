@@ -32,7 +32,7 @@ jobs:
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         run: |
-          echo "EXPO_TOKEN is set"
+          echo "Verifying Expo authentication"
           eas whoami
 
       - name: Build APK
