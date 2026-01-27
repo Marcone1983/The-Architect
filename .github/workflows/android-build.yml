@@ -27,11 +27,31 @@ jobs:
       - name: Install EAS CLI
         run: npm install -g eas-cli
 
-      - name: Add EAS App Version Source
+      - name: Add EAS App Version Source and build profile
         run: |
           cat <<'EOF' > eas.json
-          { "cli": { "appVersionSource": "remote" } }
+          {
+            "cli": { "appVersionSource": "remote" },
+            "build": {
+              "preview": {
+                "distribution": "internal",
+                "android": { "buildType": "apk" }
+              }
+            }
+          }
           EOF
 
-      - name: Build APK
-        run: npx eas build --platform android --non-interactive || echo "Build failed. See logs above."
+      - name: Build APK (EAS)
+        run: |
+          set -e
+          build_json=$(npx eas build --platform android --profile preview --non-interactive --wait --json)
+          echo "$build_json" > eas-build.json
+          apk_url=$(echo "$build_json" | jq -r '.[0].artifacts.buildUrl')
+          echo "APK URL: $apk_url"
+          curl -L "$apk_url" -o app.apk
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-apk
+          path: app.apk
