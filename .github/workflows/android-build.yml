@@ -28,7 +28,10 @@ jobs:
         run: npm install -g eas-cli
 
       - name: Add EAS App Version Source
-        run: echo '{ "cli": { "appVersionSource": "remote" } }' > eas.json
+        run: |
+          cat <<'EOF' > eas.json
+          { "cli": { "appVersionSource": "remote" } }
+          EOF
 
       - name: Build APK
         run: npx eas build --platform android --non-interactive || echo "Build failed. See logs above."
