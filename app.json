@@ -15,7 +15,7 @@
       "**/*"
     ],
     "android": {
-      "package": "com.architect.autonomousapp",
+      "package": "com.growverse.thearchitect",
       "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
